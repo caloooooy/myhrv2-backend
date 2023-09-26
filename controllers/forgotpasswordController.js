@@ -26,8 +26,8 @@ async function sendMail(req, res) {
     subject: "Test Email 9",
     template: "fpassword",
     context: {
-      name: name, // replace {{name}} with Adebola
-      password: password, // replace {{company}} with My Company
+      name: name,
+      password: password,
     },
   };
 
@@ -36,12 +36,9 @@ async function sendMail(req, res) {
     // res.send("Email sent successfully");
     res.status(200).json({ result: 0, description: "Email sent successfully" });
   } catch (error) {
-    //res.status(500).send("Error sending email: " + error.message);
-    res.status(200).json({ result: 1, description: error.message });
+    res.status(400).json({ result: 1, description: error.message });
   }
 }
-
-//module.exports = router;
 
 module.exports = {
   sendMail,

@@ -28,7 +28,7 @@ async function fetchDataFromDatabase(req, res) {
 async function getLoginByUser(req, res) {
   try {
     console.log(req.body);
-    const { userid, pass } = req.body; // Assuming 'param1' and 'param2' are the parameter names in the request body
+    const { userid, pass } = req.body;
     if (!userid || !pass)
       return res
         .status(400)
@@ -37,12 +37,11 @@ async function getLoginByUser(req, res) {
     await sql.connect(config);
     const request = new sql.Request();
 
-    // Replace 'YourStoredProcedureName' with the name of your stored procedure
     request.input("usernm", sql.VarChar, userid);
-    request.input("pass", sql.VarChar, pass); // Add input parameters if needed
+    request.input("pass", sql.VarChar, pass);
 
     const result = await request.execute("spEmpLogin");
-    console.log(result.recordset); // Process the results as needed
+
     sql.close();
 
     if (result.recordset[0].Status !== true) return res.sendStatus(401);
