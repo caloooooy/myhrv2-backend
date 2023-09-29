@@ -3,9 +3,38 @@ const transporter = require("../config/emailConfig");
 const hbs = require("nodemailer-express-handlebars");
 const path = require("path");
 
+async function verifyEmpid(req,res)
+{
+    try {
+    console.log(req.body);
+    const { empid } = req.body;
+    if (!empid)
+      return res
+        .status(400)
+        .json({ message: "Employee ID is required" });
+
+    await sql.connect(config);
+    const request = new sql.Request();
+      console.log(rew.body.empid)
+    request.query('SELECT dbo.fnVerifyEmpID ('+req.body+');',(err,result) =>{
+      if(err){
+        console.error('Error executing query:', err);
+        return;
+      }
+      if (result.recordset[0].Status !== true) return res.sendStatus(401);
+
+    });
+    sql.close();
+    res.json({ result: result.recordset[0].Status });
+  } catch (err) {
+    console.error("Error calling stored procedure:", err);
+  }
+
+}
+
 // Send an email
 async function sendMail(req, res) {
-  console.log(req.body);
+
   const { email, name, password } = req.body;
 
   console.log(email);
@@ -42,4 +71,5 @@ async function sendMail(req, res) {
 
 module.exports = {
   sendMail,
+  verifyEmpid,
 };

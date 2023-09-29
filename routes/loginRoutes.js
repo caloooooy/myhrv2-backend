@@ -12,5 +12,7 @@ router.get("/data", databaseController.fetchDataFromDatabase);
 router.post("/login", databaseController.getLoginByUser);
 router.post("/email/forgotpassword", forgotpassword.sendMail);
 router.post("/forgotpassword", emailvalidator.forgotpasswordvalid);
+router.post("/VerifyEmpid", forgotpassword.verifyEmpid);
+
 
 module.exports = router;

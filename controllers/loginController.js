@@ -51,7 +51,7 @@ async function getLoginByUser(req, res) {
         mkey: result.recordset[0].mkey,
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "30s" }
+      { expiresIn: "1d" }
     );
 
     res.json({ accessToken });
