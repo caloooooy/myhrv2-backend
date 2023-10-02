@@ -16,7 +16,7 @@ async function verifyEmpid(req,res)
     
       await poolConnect;
       const request = new sql.Request(pool);
-      console.log(req.body);
+   
       const { empid } = req.body;
       if (!empid)
       return res
@@ -29,7 +29,7 @@ async function verifyEmpid(req,res)
     //const scalarResult = result.recordset[0].Result;
 
     sql.close();
-    console.log(result.recordset[0].Status);
+
 
     if (result.recordset[0].Status !== true) return res.sendStatus(401);
 
@@ -55,7 +55,7 @@ async function sendMail(req, res) {
 
   const { email } = req.body;
 
-  //console.log(email);
+
 
   if (!email)
       return res
@@ -72,11 +72,10 @@ async function sendMail(req, res) {
       const verified = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
       request.input("empid", sql.VarChar, verified.mkey);
       request.input("email", sql.VarChar, email);
-      console.log(verified.mkey);
-      console.log(email);
+
   
       const result = await request.execute("spForgotPassword");
-      console.log(result.recordset[0].Status);
+  
       sql.close();
   
       if (result.recordset[0].Status !== true) return res.sendStatus(401);
@@ -93,7 +92,7 @@ async function sendMail(req, res) {
   // use a template file with nodemailer
   transporter.use("compile", hbs(handlebarOptions));
 
-  console.log(result.recordset[0].Empname);
+ 
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: email,
@@ -121,7 +120,7 @@ async function verifyOTP(req,res)
     
       await poolConnect;
       const request = new sql.Request(pool);
-      console.log(req.body);
+
       const { OTP } = req.body;
       if (!OTP)
       return res
@@ -139,7 +138,7 @@ async function verifyOTP(req,res)
     //const scalarResult = result.recordset[0].Result;
 
     sql.close();
-    console.log(result.recordset[0].Status);
+   
 
     if (result.recordset[0].Status !== true) return res.sendStatus(401);
 
@@ -158,7 +157,7 @@ async function ChangePassword(req,res)
     
       await poolConnect;
       const request = new sql.Request(pool);
-      console.log(req.body);
+
       const { password } = req.body;
       if (!password)
       return res
@@ -176,7 +175,7 @@ async function ChangePassword(req,res)
     //const scalarResult = result.recordset[0].Result;
 
     sql.close();
-    console.log(result.recordset[0].Status);
+    
 
     if (result.recordset[0].Status !== true) return res.sendStatus(401);
 
