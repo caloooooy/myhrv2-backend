@@ -1,18 +1,11 @@
-// controllers/databaseController.js
-const usersDB = {
-  users: require("../models/users.json"),
-  setUsers: function (data) {
-    this.users = data;
-  },
-};
+
 const databaseModel = require("../models/databaseModel.js");
 const sql = require("mssql");
 const config = require("../config/databaseConfig.js");
 
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const fspromises = require("fs").promises;
-const path = require("path");
+
 
 async function fetchDataFromDatabase(req, res) {
   try {
