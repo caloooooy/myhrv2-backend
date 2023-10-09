@@ -1,7 +1,7 @@
 const databaseModel = require("../models/databaseModel.js");
 const sql = require("mssql");
 const config = require("../config/databaseConfig.js");
-
+const cookieparser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
@@ -30,23 +30,78 @@ async function getLoginByUser(req, res) {
         mkey: result.recordset[0].mkey,
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: process.env.ACCESS_TOKEN_SECRET_EXPIRES }
     );
+
+    const refreshToken = jwt.sign(
+      {
+        mkey: result.recordset[0].mkey,
+      },
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: process.env.REFRESH_TOKEN_SECRET_EXPIRES }
+    );
+
+    res.cookie("jwt", refreshToken, {
+      httpOnly: true,
+      sameSite: "None",
+      secure: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
 
     res.json({
       accessToken,
-      lastName: result.recordset[0].LastName,
-      suffixName: result.recordset[0].SuffixName,
-      firstName: result.recordset[0].FirstName,
-      middleName: result.recordset[0].MiddleName,
-      nickName: result.recordset[0].NickName,
-      profilePict: result.recordset[0].ProfilePict,
+      Lastname: result.recordset[0].LastName,
+      SuffixName: result.recordset[0].SuffixName,
+      FirstName: result.recordset[0].FirstName,
+      MiddleName: result.recordset[0].MiddleName,
+      NickName: result.recordset[0].NickName,
+      ProfilePict: result.recordset[0].ProfilePict,
     });
   } catch (err) {
     console.error("Error calling stored procedure:", err);
   }
 }
 
+async function RefreshToken(req, res) {
+  console.log(req.cookies);
+  if (req.cookies?.jwt) {
+    // Destructuring refreshToken from cookie
+    const refreshToken = req.cookies.jwt;
+    console.log(refreshToken);
+
+    // Verifying refresh token
+    jwt.verify(
+      refreshToken,
+      process.env.REFRESH_TOKEN_SECRET,
+      (err, decoded) => {
+        if (err) {
+          // Wrong Refesh Token
+          return res.status(406).json({ message: "Unauthorized" });
+        } else {
+          // Correct token we send a new access token
+          const verified = jwt.verify(
+            refreshToken,
+            process.env.REFRESH_TOKEN_SECRET
+          );
+          req.user = verified;
+
+          const accessToken = jwt.sign(
+            {
+              mkey: verified.mkey,
+            },
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: process.env.ACCESS_TOKEN_SECRET_EXPIRES }
+          );
+          return res.json({ accessToken });
+        }
+      }
+    );
+  } else {
+    return res.status(406).json({ message: "Unauthorized" });
+  }
+}
+
 module.exports = {
   getLoginByUser,
+  RefreshToken,
 };

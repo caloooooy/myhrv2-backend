@@ -13,6 +13,8 @@ router.post("/forgotpassword", forgotpassword.sendMail);
 router.get("/VerifyEmpid", forgotpassword.verifyEmpid);
 router.get("/VerifyOTP", forgotpassword.verifyOTP);
 router.post("/ChangePassword", forgotpassword.ChangePassword);
+router.post("/Refresh", databaseController.RefreshToken);
+
 
 
 module.exports = router;
