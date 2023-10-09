@@ -9,7 +9,7 @@ router.use(express.json());
 
 // Define routes and map them to controller functions
 router.get("/data", databaseController.fetchDataFromDatabase);
-router.post("/login", databaseController.getLoginByUser);
+router.post("/", databaseController.getLoginByUser);
 //router.post("/email/forgotpassword", forgotpassword.sendMail);
 router.post("/forgotpassword", forgotpassword.sendMail);
 router.get("/VerifyEmpid", forgotpassword.verifyEmpid);
