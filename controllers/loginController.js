@@ -50,12 +50,12 @@ async function getLoginByUser(req, res) {
 
     res.json({
       accessToken,
-      Lastname: result.recordset[0].LastName,
-      SuffixName: result.recordset[0].SuffixName,
-      FirstName: result.recordset[0].FirstName,
-      MiddleName: result.recordset[0].MiddleName,
-      NickName: result.recordset[0].NickName,
-      ProfilePict: result.recordset[0].ProfilePict,
+      lastName: result.recordset[0].LastName,
+      suffixName: result.recordset[0].SuffixName,
+      firstName: result.recordset[0].FirstName,
+      middleName: result.recordset[0].MiddleName,
+      nickName: result.recordset[0].NickName,
+      profilePict: result.recordset[0].ProfilePict,
     });
   } catch (err) {
     console.error("Error calling stored procedure:", err);
