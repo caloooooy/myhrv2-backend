@@ -1,4 +1,3 @@
-
 const databaseModel = require("../models/databaseModel.js");
 const sql = require("mssql");
 const config = require("../config/databaseConfig.js");
@@ -6,11 +5,8 @@ const config = require("../config/databaseConfig.js");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-
-
 async function getLoginByUser(req, res) {
   try {
-    
     const { userid, pass } = req.body;
     if (!userid || !pass)
       return res
@@ -37,13 +33,14 @@ async function getLoginByUser(req, res) {
       { expiresIn: "1d" }
     );
 
-    res.json({ accessToken ,
-      "Lastname" :  result.recordset[0].LastName,
-      "SuffixName" :  result.recordset[0].SuffixName ,
-      "FirstName" :  result.recordset[0].FirstName,
-      "MiddleName" :  result.recordset[0].MiddleName,
-      "NickName" :  result.recordset[0].NickName,
-      "ProfilePict": result.recordset[0].ProfilePict
+    res.json({
+      accessToken,
+      lastName: result.recordset[0].LastName,
+      suffixName: result.recordset[0].SuffixName,
+      firstName: result.recordset[0].FirstName,
+      middleName: result.recordset[0].MiddleName,
+      nickName: result.recordset[0].NickName,
+      profilePict: result.recordset[0].ProfilePict,
     });
   } catch (err) {
     console.error("Error calling stored procedure:", err);
