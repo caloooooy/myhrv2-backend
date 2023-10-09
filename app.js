@@ -1,5 +1,6 @@
 // app.js
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const databaseRoutes = require("./routes/loginRoutes");
 const gettokenRoutes = require("./routes/gettoken");
@@ -8,6 +9,15 @@ const gettokenRoutes = require("./routes/gettoken");
 
 // Use the database routes
 app.use(express.json());
+
+// Allow requests from localhost:3000
+const corsOptions = {
+  origin: process.env.LOCAL_FRONTEND_URL,
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true, // Allow cookies to be sent with the request if needed
+};
+
+app.use(cors(corsOptions));
 
 app.use("/api/login", databaseRoutes);
 //app.use("/refresh", require("./routes/refresh"));
