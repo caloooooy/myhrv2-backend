@@ -20,7 +20,7 @@ async function fetchDataFromDatabase(req, res) {
 
 async function getLoginByUser(req, res) {
   try {
-    console.log(req.body);
+    
     const { userid, pass } = req.body;
     if (!userid || !pass)
       return res
@@ -47,7 +47,14 @@ async function getLoginByUser(req, res) {
       { expiresIn: "1d" }
     );
 
-    res.json({ accessToken });
+    res.json({ accessToken ,
+      "Lastname" :  result.recordset[0].LastName,
+      "SuffixName" :  result.recordset[0].SuffixName ,
+      "FirstName" :  result.recordset[0].FirstName,
+      "MiddleName" :  result.recordset[0].MiddleName,
+      "NickName" :  result.recordset[0].NickName,
+      "ProfilePict": result.recordset[0].ProfilePict
+    });
   } catch (err) {
     console.error("Error calling stored procedure:", err);
   }
