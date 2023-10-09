@@ -7,16 +7,6 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 
-async function fetchDataFromDatabase(req, res) {
-  try {
-    const queryResult = await databaseModel.queryDatabase(
-      "SELECT * FROM tblcredential"
-    );
-    res.json(queryResult);
-  } catch (err) {
-    res.status(500).json({ error: "Internal  error" });
-  }
-}
 
 async function getLoginByUser(req, res) {
   try {
@@ -61,6 +51,5 @@ async function getLoginByUser(req, res) {
 }
 
 module.exports = {
-  fetchDataFromDatabase,
   getLoginByUser,
 };

@@ -8,9 +8,7 @@ const emailvalidator = require("../controllers/emailValidation");
 router.use(express.json());
 
 // Define routes and map them to controller functions
-router.get("/data", databaseController.fetchDataFromDatabase);
 router.post("/", databaseController.getLoginByUser);
-//router.post("/email/forgotpassword", forgotpassword.sendMail);
 router.post("/forgotpassword", forgotpassword.sendMail);
 router.get("/VerifyEmpid", forgotpassword.verifyEmpid);
 router.get("/VerifyOTP", forgotpassword.verifyOTP);
