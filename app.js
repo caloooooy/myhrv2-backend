@@ -4,11 +4,12 @@ const cors = require("cors");
 const app = express();
 const databaseRoutes = require("./routes/loginRoutes");
 const gettokenRoutes = require("./routes/gettoken");
-
+const cookieparser = require('cookie-parser'); 
 // Middleware and other configurations can go here
 
 // Use the database routes
 app.use(express.json());
+app.use(cookieparser());
 
 // Allow requests from localhost:3000
 const corsOptions = {
